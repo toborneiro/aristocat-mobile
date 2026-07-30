@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowJs": false,
+    "noEmit": true,
+    "types": ["jest", "react", "react-native"]
+  },
+  "include": ["App.tsx", "src", "jest.setup.ts"]
+}
