@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 
-import { AppProviders } from '../../app/providers/AppProviders';
+import { AppProviders } from '../../providers/AppProviders';
 import { TechnicalFormScreen } from './TechnicalFormScreen';
 
 describe('TechnicalFormScreen', () => {

@@ -2,6 +2,12 @@
 
 Aplicação Expo/React Native. Esta pasta é uma aplicação pnpm independente e pode ser copiada ou clonada sem o repositório agregador.
 
+## Estado atual
+
+O aplicativo possui uma fundação visual navegável, sem API, autenticação, persistência, banco de dados ou regras de negócio. A navegação é baseada em Expo Router e inclui splash e stack público, stack estrutural protegido sem guarda real, tabs de Início/Extrato/Investimentos/Gráficos, Configurações, Perfil e modal stack.
+
+Os tokens, providers visuais e componentes reutilizáveis não acessam dados remotos.
+
 ## Responsabilidade
 
 O mobile é dono da experiência de usuário, navegação, estado local, formulários, acessibilidade e tradução de códigos públicos de erro. Ele consome a API somente por HTTP/OpenAPI.
@@ -46,6 +52,20 @@ pnpm ios
 | `pnpm typecheck` | Verifica TypeScript. |
 | `pnpm test` | Executa testes Jest. |
 | `pnpm validate` | Executa lint, tipos e testes. |
+
+## Estrutura visual
+
+```text
+src/app/                 rotas e layouts Expo Router
+src/app/(public)/        splash e acesso visual
+src/app/(protected)/     tabs, configurações e perfil
+src/app/(modals)/        modal stack
+src/components/          design system desacoplado
+src/contexts/            contextos sem efeitos externos
+src/hooks/               hooks de estados visuais
+src/presentation/        composição visual das telas
+src/theme/               tokens e provider de tema
+```
 
 ## Ambiente e API
 

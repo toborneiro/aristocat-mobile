@@ -1,13 +1,11 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { ActivityIndicator, Button, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import type { RootStackParamList } from '../../app/navigation/AppNavigator';
 import { useAppStore } from '../../stores/useAppStore';
 import type { BootstrapState } from './bootstrap-state';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Bootstrap'>;
+type Props = { navigation: { navigate: (_screen: string) => void } };
 
 export function BootstrapScreen({ navigation }: Props) {
   const { t } = useTranslation();

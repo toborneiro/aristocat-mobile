@@ -4,7 +4,17 @@
     "slug": "aristocat",
     "version": "0.0.0",
     "orientation": "portrait",
-    "userInterfaceStyle": "automatic",
-    "assetBundlePatterns": ["**/*"]
+    "userInterfaceStyle": "dark",
+    "scheme": "aristocat",
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }
