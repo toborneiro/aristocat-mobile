@@ -219,7 +219,7 @@ export function HomeScreen() {
             label: labels.investments,
             onPress: () => router.push('/investments'),
           },
-          { icon: 'link' as const, label: 'Open Banking', onPress: () => router.replace('/home') },
+          { icon: 'link' as const, label: 'Open Banking', onPress: () => router.push('/banking') },
         ].map((shortcut) => (
           <Pressable
             accessibilityLabel={shortcut.label}

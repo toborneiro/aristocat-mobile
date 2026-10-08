@@ -4,9 +4,16 @@ Aplicação Expo/React Native. Esta pasta é uma aplicação pnpm independente e
 
 ## Estado atual
 
-O aplicativo possui uma fundação visual navegável, sem API, autenticação, persistência, banco de dados ou regras de negócio. A navegação é baseada em Expo Router e inclui splash e stack público, stack estrutural protegido sem guarda real, tabs de Início/Extrato/Investimentos/Gráficos, Configurações, Perfil e modal stack.
+O aplicativo possui fundação visual navegável e uma jornada bancária PF via
+Pluggy. A jornada usa `react-native-pluggy-connect`, `react-native-webview` e
+TanStack Query para consultar exclusivamente a API Aristocat: Connect Token,
+instituições, status da conexão e contas normalizadas. Não chama instituições
+financeiras diretamente nem guarda segredo Pluggy.
 
-Os tokens, providers visuais e componentes reutilizáveis não acessam dados remotos.
+O login ainda é visual e não entrega uma sessão JWT Aristocat. Por isso a tela
+bancária apresenta “Sessão necessária” até que a implementação de autenticação
+mobile injete o access token no `BankingSessionProvider`. Não adicione token,
+`CLIENT_SECRET` ou `PLUGGY_WEBHOOK_SECRET` ao `.env` público do Expo.
 
 ## Responsabilidade
 
@@ -38,20 +45,20 @@ pnpm android
 pnpm ios
 ```
 
-`index.js` registra `App.tsx` localmente para funcionar com pnpm em Web, Android e iOS. `metro.config.cjs` fixa a resolução do Zod declarado pelo aplicativo.
+`index.js` registra `App.tsx` localmente para funcionar com pnpm em Web, Android e iOS. `metro.config.cjs` fixa a resolução do Zod e do pacote `punycode` completo, necessário ao parser de URL carregado pelo Expo Router.
 
 ## Comandos
 
-| Comando | Finalidade |
-| --- | --- |
-| `pnpm start` | Inicia o Expo bundler. |
-| `pnpm web` | Abre o destino web. |
-| `pnpm android` | Abre o destino Android. |
-| `pnpm ios` | Abre o destino iOS em macOS. |
-| `pnpm lint` | Executa ESLint. |
-| `pnpm typecheck` | Verifica TypeScript. |
-| `pnpm test` | Executa testes Jest. |
-| `pnpm validate` | Executa lint, tipos e testes. |
+| Comando          | Finalidade                    |
+| ---------------- | ----------------------------- |
+| `pnpm start`     | Inicia o Expo bundler.        |
+| `pnpm web`       | Abre o destino web.           |
+| `pnpm android`   | Abre o destino Android.       |
+| `pnpm ios`       | Abre o destino iOS em macOS.  |
+| `pnpm lint`      | Executa ESLint.               |
+| `pnpm typecheck` | Verifica TypeScript.          |
+| `pnpm test`      | Executa testes Jest.          |
+| `pnpm validate`  | Executa lint, tipos e testes. |
 
 ## Estrutura visual
 
@@ -62,6 +69,7 @@ src/app/(protected)/     tabs, configurações e perfil
 src/app/(modals)/        modal stack
 src/components/          design system desacoplado
 src/contexts/            contextos sem efeitos externos
+src/features/banking/    fluxo Pluggy, polling e cliente HTTP bancário
 src/hooks/               hooks de estados visuais
 src/presentation/        composição visual das telas
 src/theme/               tokens e provider de tema
@@ -72,6 +80,10 @@ src/theme/               tokens e provider de tema
 `EXPO_PUBLIC_API_BASE_URL` em `.env` define a URL pública da API. Em dispositivo físico, use um endereço disponível na rede local. Não versione `.env`.
 
 O mobile consome APIs apenas por HTTP/OpenAPI e não importa domínio, serviços ou tipos internos do backend.
+
+O scheme `aristocat` declara o retorno `aristocat://open-finance/callback`, que
+restaura a rota bancária. O app faz polling limitado do backend após o widget; o
+callback nunca é fonte de verdade.
 
 ## Troubleshooting
 
