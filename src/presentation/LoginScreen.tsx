@@ -1,12 +1,11 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Svg, { Path } from 'react-native-svg';
 
 import { Icon } from '../components/Icon';
 import { SafeScreen } from '../components/ui';
+import { GoogleAuthButton } from '../features/auth/GoogleAuthButton';
 import {
-  borderWidth,
   blur,
   colors,
   componentSize,
@@ -19,22 +18,10 @@ import {
   typography,
 } from '../theme/tokens';
 
-type Provider = 'Google' | 'Facebook';
-
-const providers: ReadonlyArray<{
-  icon: 'google' | 'facebook';
-  iconBackground: string;
-  label: Provider;
-}> = [
-  { icon: 'google', iconBackground: colors.destructiveForeground, label: 'Google' },
-  { icon: 'facebook', iconBackground: colors.socialFacebook, label: 'Facebook' },
-];
 const glowStart = { x: 0.5, y: 0.5 };
 const glowEnd = { x: 1, y: 1 };
 
 export function LoginScreen() {
-  const enterApplication = () => router.replace('/home');
-
   return (
     <SafeScreen style={styles.screen}>
       <LinearGradient
@@ -65,25 +52,7 @@ export function LoginScreen() {
         </View>
 
         <View style={styles.providers}>
-          {providers.map((provider) => (
-            <Pressable
-              accessibilityLabel={`Continuar com ${provider.label}`}
-              accessibilityRole="button"
-              key={provider.label}
-              onPress={enterApplication}
-              style={({ pressed }) => [styles.providerButton, pressed && styles.providerPressed]}
-            >
-              <View style={[styles.providerIcon, { backgroundColor: provider.iconBackground }]}>
-                {provider.icon === 'google' ? (
-                  <GoogleMark />
-                ) : (
-                  <Icon color={colors.destructiveForeground} name="facebook" size={iconSize.social} />
-                )}
-              </View>
-              <Text style={styles.providerText}>Continuar com {provider.label}</Text>
-              <Icon name="right" size={iconSize.chevron} />
-            </Pressable>
-          ))}
+          <GoogleAuthButton />
         </View>
 
         <View style={styles.divider}>
@@ -95,10 +64,19 @@ export function LoginScreen() {
         <Pressable
           accessibilityLabel="Entrar com e-mail"
           accessibilityRole="button"
-          onPress={enterApplication}
+          onPress={() => router.replace('/home')}
           style={({ pressed }) => [styles.emailButton, pressed && styles.emailPressed]}
         >
           <Text style={styles.emailText}>Entrar com e-mail</Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityLabel="Criar nova conta"
+          accessibilityRole="button"
+          onPress={() => router.push('/register')}
+          style={({ pressed }) => [styles.registerButton, pressed && styles.registerPressed]}
+        >
+          <Text style={styles.registerText}>Criar nova conta</Text>
         </Pressable>
 
         <Text style={styles.terms}>
@@ -151,33 +129,13 @@ const styles = StyleSheet.create({
   welcome: { ...typography.welcome, color: colors.foreground, marginBottom: spacing.sm },
   welcomeSubtitle: { ...typography.body, color: colors.mutedForeground },
   providers: { gap: spacing.md },
-  providerButton: {
-    alignItems: 'center',
-    backgroundColor: colors.surface,
-    borderColor: colors.border,
-    borderRadius: radius.lg,
-    borderWidth: borderWidth.thin,
-    flexDirection: 'row',
-    gap: spacing.md,
-    paddingHorizontal: spacing.xl,
-    paddingVertical: spacing.lg,
-  },
-  providerPressed: { backgroundColor: colors.secondary },
-  providerIcon: {
-    alignItems: 'center',
-    borderRadius: radius.pill,
-    height: componentSize.loginProviderIcon,
-    justifyContent: 'center',
-    width: componentSize.loginProviderIcon,
-  },
-  providerText: { ...typography.bodyMedium, color: colors.foreground, flex: 1 },
   divider: {
     alignItems: 'center',
     flexDirection: 'row',
     gap: spacing.md,
     marginVertical: spacing.xl,
   },
-  dividerLine: { backgroundColor: colors.border, flex: 1, height: borderWidth.thin },
+  dividerLine: { backgroundColor: colors.border, flex: 1, height: 1 },
   dividerText: { ...typography.caption, color: colors.mutedForeground },
   emailButton: {
     ...shadows.loginPrimary,
@@ -188,6 +146,9 @@ const styles = StyleSheet.create({
   },
   emailPressed: { backgroundColor: colors.secondary },
   emailText: { ...typography.action, color: colors.primaryForeground },
+  registerButton: { alignItems: 'center', marginTop: spacing.lg, paddingVertical: spacing.sm },
+  registerPressed: { opacity: 0.7 },
+  registerText: { ...typography.bodyMedium, color: colors.primary },
   terms: {
     ...typography.caption,
     color: colors.mutedForeground,
@@ -196,26 +157,3 @@ const styles = StyleSheet.create({
   },
   termsLink: { color: colors.primary },
 });
-
-function GoogleMark() {
-  return (
-    <Svg height={iconSize.social} viewBox="0 0 48 48" width={iconSize.social}>
-      <Path
-        d="M44.5 20H24v8.5h11.7C34.4 33.7 29.7 37 24 37c-7.2 0-13-5.8-13-13s5.8-13 13-13c3.2 0 6.1 1.2 8.4 3.1l6-6C34.6 5.1 29.6 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21c10.5 0 20-7.6 20-21 0-1.4-.1-2.7-.5-4z"
-        fill={colors.googleYellow}
-      />
-      <Path
-        d="M6.3 14.7l6.6 4.8C14.6 16 19 13 24 13c3.2 0 6.1 1.2 8.4 3.1l6-6C34.6 5.1 29.6 3 24 3c-7.7 0-14.4 4.4-17.7 11.7z"
-        fill={colors.googleRed}
-      />
-      <Path
-        d="M24 45c5.5 0 10.5-2.1 14.2-5.4l-6.5-5.5C29.7 35.6 27 36.8 24 36.8c-5.6 0-10.4-3.7-12.2-8.8l-6.6 5.1C8.9 41 15.9 45 24 45z"
-        fill={colors.googleGreen}
-      />
-      <Path
-        d="M44.5 20H24v8.5h11.7c-.9 3-3.1 5.5-6 7l6.5 5.5C40.6 37.5 44.5 31.3 44.5 24c0-1.4-.2-2.7-.5-4z"
-        fill={colors.googleBlue}
-      />
-    </Svg>
-  );
-}

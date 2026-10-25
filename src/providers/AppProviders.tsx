@@ -2,6 +2,7 @@ import type { PropsWithChildren } from 'react';
 import { I18nextProvider } from 'react-i18next';
 
 import { ToastProvider } from '../contexts/ToastContext';
+import { AuthSessionProvider } from '../features/auth/auth-session';
 import { BankingSessionProvider } from '../features/banking/banking-session';
 import { i18n } from '../i18n/i18n';
 import { ThemeProvider } from '../theme/ThemeProvider';
@@ -11,7 +12,9 @@ export function AppProviders({ children }: PropsWithChildren) {
     <I18nextProvider i18n={i18n}>
       <ThemeProvider>
         <ToastProvider>
-          <BankingSessionProvider>{children}</BankingSessionProvider>
+          <AuthSessionProvider>
+            <BankingSessionProvider>{children}</BankingSessionProvider>
+          </AuthSessionProvider>
         </ToastProvider>
       </ThemeProvider>
     </I18nextProvider>

@@ -1,15 +1,16 @@
-import { createContext, useContext, useMemo, useState, type PropsWithChildren } from 'react';
+import { createContext, useContext, useMemo, type PropsWithChildren } from 'react';
+
+import { useAuthSession } from '../auth/auth-session';
 
 type BankingSession = Readonly<{
   accessToken: string | null;
-  setAccessToken: (accessToken: string | null) => void;
 }>;
 
 const BankingSessionContext = createContext<BankingSession | null>(null);
 
 export function BankingSessionProvider({ children }: PropsWithChildren) {
-  const [accessToken, setAccessToken] = useState<string | null>(null);
-  const value = useMemo(() => ({ accessToken, setAccessToken }), [accessToken]);
+  const { accessToken } = useAuthSession();
+  const value = useMemo(() => ({ accessToken }), [accessToken]);
   return <BankingSessionContext.Provider value={value}>{children}</BankingSessionContext.Provider>;
 }
 

@@ -209,20 +209,12 @@ export const iconSize = {
 // Cards internos do Figma Make não declaram sombra. Não convertemos shadow-lg/xl
 // do CSS para elevação nativa sem uma medição de frame estruturada.
 export const shadows = {
-  none: { elevation: 0, shadowOpacity: 0 } as ViewStyle,
+  none: { boxShadow: 'none' } as ViewStyle,
   loginBrand: {
-    elevation: 8,
-    shadowColor: colors.primary,
-    shadowOffset: { height: 10, width: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 15,
+    boxShadow: '0px 10px 15px 0px rgba(34, 214, 138, 0.3)',
   } as ViewStyle,
   loginPrimary: {
-    elevation: 8,
-    shadowColor: colors.primary,
-    shadowOffset: { height: 10, width: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 15,
+    boxShadow: '0px 10px 15px 0px rgba(34, 214, 138, 0.25)',
   } as ViewStyle,
 } as const;
 

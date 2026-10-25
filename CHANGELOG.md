@@ -13,4 +13,9 @@ Todas as mudanças relevantes do mobile serão documentadas neste arquivo.
 
 ### Fixed
 
+- Google Sign-In no Web agora usa o fluxo OAuth compatível com navegador e
+  envia o ID Token ao endpoint de sessão existente.
 - Configuração Jest ajustada para Expo, React Native e instalação pnpm local.
+- A recuperação de sessão não deixa uma falha de limpeza do SecureStore gerar
+  uma rejeição não tratada; o procedimento para sincronizar o cliente nativo
+  com o SDK Expo está documentado.

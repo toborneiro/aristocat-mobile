@@ -6,15 +6,22 @@
     "orientation": "portrait",
     "userInterfaceStyle": "dark",
     "scheme": "aristocat",
+    "android": {
+      "package": "br.com.aristocat.app"
+    },
+    "ios": {
+      "bundleIdentifier": "br.com.aristocat.app"
+    },
     "plugins": [
       "expo-router",
-      "expo-font"
+      "expo-font",
+      "expo-secure-store",
+      "expo-web-browser",
+      "@react-native-google-signin/google-signin"
     ],
     "experiments": {
       "typedRoutes": true
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }
